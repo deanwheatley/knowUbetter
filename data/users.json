@@ -1,0 +1,48 @@
+[
+  {
+    "id": "admin-001",
+    "username": "admin",
+    "email": "admin@knowubetter.com",
+    "password": "admin123",
+    "role": "admin",
+    "totalKudos": 0,
+    "propKudos": 0,
+    "questionsAnsweredCorrectly": [],
+    "weeklyQuestionsUsed": 0,
+    "weeklyResetDate": "2024-01-01",
+    "propsRemaining": {
+      "prop": 5,
+      "madProp": 2,
+      "propHellYeah": 1
+    },
+    "badges": [],
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "user-001", 
+    "username": "player1",
+    "email": "player1@knowubetter.com",
+    "password": "player123",
+    "role": "user",
+    "totalKudos": 150,
+    "propKudos": 50,
+    "questionsAnsweredCorrectly": ["q-001", "q-003", "q-007"],
+    "weeklyQuestionsUsed": 3,
+    "weeklyResetDate": "2024-01-01",
+    "propsRemaining": {
+      "prop": 4,
+      "madProp": 2,
+      "propHellYeah": 1
+    },
+    "badges": [
+      {
+        "id": "first-question",
+        "name": "First Steps",
+        "description": "Answered your first question correctly",
+        "rarity": "common",
+        "earnedAt": "2024-01-01T10:00:00Z"
+      }
+    ],
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+]

@@ -1,0 +1,140 @@
+{
+  "quiz": {
+    "kudosPerQuestion": 10,
+    "kudosPerKnowYouAnswer": 1,
+    "weeklyQuestionLimit": 20,
+    "weeklyPassLimit": 5,
+    "secondsPerWord": 2,
+    "minQuestionTime": 5,
+    "maxQuestionTime": 60,
+    "autoApproveQuestions": false,
+    "autoRejectDuplicateThreshold": 80
+  },
+  "questionRewards": {
+    "approvalKudos": 20,
+    "popularityBonus10": 5,
+    "popularityBonus50": 10,
+    "perfectQuestionBonus": 15
+  },
+  "rubberBand": {
+    "enabled": true,
+    "consecutiveWrongThreshold": 10,
+    "phase1Weight": 80,
+    "phase2Weight": 60,
+    "phase3Weight": 40
+  },
+  "difficulty": {
+    "easyThreshold": 70,
+    "mediumThreshold": 40,
+    "minAnswersForDifficulty": 10
+  },
+  "props": {
+    "allowance": {
+      "prop": 5,
+      "madProp": 2,
+      "propHellYeah": 1
+    },
+    "values": {
+      "prop": 10,
+      "madProp": 50,
+      "propHellYeah": 100
+    },
+    "rollover": true,
+    "requireMessage": true,
+    "minMessageLength": 10
+  },
+  "streaks": {
+    "correctAnswerRewards": {
+      "5": 10,
+      "10": 25,
+      "20": 50,
+      "50": 100
+    },
+    "loginRewards": {
+      "5": 20,
+      "10": 50,
+      "20": 100,
+      "30": 200
+    },
+    "countWeekends": false
+  },
+  "knowYou": {
+    "weeklyLimit": 0,
+    "distributionPercentage": 30,
+    "autoApprove": true,
+    "allowEditing": true
+  },
+  "weeklyReset": {
+    "day": "Monday",
+    "time": "00:00",
+    "timezone": "America/Los_Angeles",
+    "sendReminder": true,
+    "reminderHoursBefore": 24
+  },
+  "categories": [
+    {
+      "id": "product",
+      "name": "Product",
+      "color": "#3B82F6",
+      "icon": "⚙️",
+      "isTeamScoped": false
+    },
+    {
+      "id": "people",
+      "name": "People",
+      "color": "#8B5CF6",
+      "icon": "👥",
+      "isTeamScoped": true
+    },
+    {
+      "id": "lore",
+      "name": "Lore",
+      "color": "#F59E0B",
+      "icon": "📚",
+      "isTeamScoped": false
+    },
+    {
+      "id": "industry",
+      "name": "Industry",
+      "color": "#10B981",
+      "icon": "🌐",
+      "isTeamScoped": false
+    }
+  ],
+  "teams": {
+    "allowUserCreation": true,
+    "requireApproval": false,
+    "maxTeamsPerUser": 5,
+    "requireTeamOnSignup": true
+  },
+  "leaderboards": {
+    "usersPerPage": 10,
+    "showUserRankAlways": true,
+    "hallOfFameSize": 10
+  },
+  "notifications": {
+    "count": 20,
+    "refresh": "static",
+    "types": {
+      "weeklyWinners": true,
+      "categoryLeaders": true,
+      "propsGiven": true,
+      "badgeAwards": true,
+      "milestones": true,
+      "newQuestions": true,
+      "streaks": true,
+      "teamUpdates": true
+    }
+  },
+  "weeklyRecap": {
+    "enabled": true,
+    "allowSkip": true,
+    "screens": ["overview", "kudos", "social", "achievements", "leaderboard"]
+  },
+  "system": {
+    "questionPoolSize": 100,
+    "cacheDuration": 5,
+    "maintenanceMode": false,
+    "maintenanceMessage": "System maintenance in progress"
+  }
+}

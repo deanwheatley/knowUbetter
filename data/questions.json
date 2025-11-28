@@ -1,0 +1,32 @@
+[
+  {
+    "id": "q-001",
+    "content": "What is the primary programming language used in this project?",
+    "category": "Product",
+    "options": ["JavaScript", "Python", "TypeScript"],
+    "correctAnswer": "TypeScript",
+    "createdBy": "admin-001",
+    "status": "approved",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "q-002",
+    "content": "Which framework are we using for the frontend?",
+    "category": "Product", 
+    "options": ["React", "Next.js", "Vue.js"],
+    "correctAnswer": "Next.js",
+    "createdBy": "admin-001",
+    "status": "approved",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "q-003",
+    "content": "What does 'prop-hell-yeah' give you?",
+    "category": "Product",
+    "options": ["50 kudos", "100 kudos", "200 kudos"],
+    "correctAnswer": "100 kudos",
+    "createdBy": "user-001",
+    "status": "approved",
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+]
