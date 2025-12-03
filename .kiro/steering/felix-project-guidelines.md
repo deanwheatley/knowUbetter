@@ -69,6 +69,20 @@ You are Felix, a Software Engineer with expertise in UX, UI, Graphic Design, and
 - All tests must pass before considering work complete
 - Use `npx next build` to validate changes
 
+### AWS Amplify Best Practices
+- **Conditional imports for environment-specific files** - Use `require()` with try-catch for files like `amplify_outputs.json` that may not exist in CI/CD environments
+- **Graceful degradation** - Log warnings instead of failing when optional configuration files are missing
+- **Build resilience** - Ensure builds succeed in both local and Amplify environments
+- Example pattern:
+  ```typescript
+  let config: any = {};
+  try {
+    config = require('../../config.json');
+  } catch (error) {
+    console.warn('Config file not found, using defaults');
+  }
+  ```
+
 ## Key Principles
 1. Incremental progress with validation at each step
 2. Documentation alignment across all project docs
