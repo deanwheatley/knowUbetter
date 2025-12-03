@@ -29,7 +29,6 @@ export const organizationService = {
       secondaryColor: data.secondaryColor || '#8B5CF6',
       ssoKnowUbetter: true,
       ssoGoogle: true,
-      ssoFacebook: true,
       ssoEnterpriseEnabled: false,
       kudosPerQuestion: 10,
       weeklyQuestionLimit: 50,
@@ -91,7 +90,6 @@ export const organizationService = {
     if (updates.primaryColor !== undefined) updateData.primaryColor = updates.primaryColor;
     if (updates.secondaryColor !== undefined) updateData.secondaryColor = updates.secondaryColor;
     if (updates.ssoGoogle !== undefined) updateData.ssoGoogle = updates.ssoGoogle;
-    if (updates.ssoFacebook !== undefined) updateData.ssoFacebook = updates.ssoFacebook;
     if (updates.kudosPerQuestion !== undefined) updateData.kudosPerQuestion = updates.kudosPerQuestion;
     if (updates.weeklyQuestionLimit !== undefined) updateData.weeklyQuestionLimit = updates.weeklyQuestionLimit;
     if (updates.invitationExpirationDays !== undefined) updateData.invitationExpirationDays = updates.invitationExpirationDays;

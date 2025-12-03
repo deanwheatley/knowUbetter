@@ -187,7 +187,6 @@ export const authService = {
   async getOrgSSOConfig(organizationId: string): Promise<{
     knowUbetter: boolean;
     google: boolean;
-    facebook: boolean;
     disabledBy?: string[];
   }> {
     const org = await organizationService.getById(organizationId);
@@ -196,7 +195,6 @@ export const authService = {
       return {
         knowUbetter: true,
         google: false,
-        facebook: false,
       };
     }
 
@@ -205,10 +203,7 @@ export const authService = {
     return {
       knowUbetter: orgData.ssoKnowUbetter !== false,
       google: orgData.ssoGoogle === true,
-      facebook: orgData.ssoFacebook === true,
-      disabledBy: orgData.ssoGoogle === false || orgData.ssoFacebook === false
-        ? [orgData.createdBy]
-        : undefined,
+      disabledBy: orgData.ssoGoogle === false ? [orgData.createdBy] : undefined,
     };
   },
 
@@ -275,13 +270,7 @@ export const authService = {
     await signInWithRedirect({ provider: 'Google' });
   },
 
-  /**
-   * Sign in with Facebook OAuth (using AWS Amplify)
-   */
-  async signInWithFacebook(): Promise<void> {
-    const { signInWithRedirect } = await import('aws-amplify/auth');
-    await signInWithRedirect({ provider: 'Facebook' });
-  },
+
 
   /**
    * Get current user info

@@ -14,14 +14,9 @@ Implement authentication system with SSO support and complete user onboarding fl
   - **Requirements:** 3. Organization Branding (Authentication Configuration)
   - **Design:** Authentication architecture (docs/design/architecture-diagrams.md)
   
-- [ ] 1.2 Implement Google OAuth integration
+- [x] 1.2 Implement Google OAuth integration
   - Configure Google OAuth, implement callback handling
   - **Requirements:** 3. Organization Branding (Google SSO)
-  - **Design:** Authentication flow (docs/design/architecture-diagrams.md)
-  
-- [ ] 1.3 Implement Facebook OAuth integration
-  - Configure Facebook OAuth, implement callback handling
-  - **Requirements:** 3. Organization Branding (Facebook SSO)
   - **Design:** Authentication flow (docs/design/architecture-diagrams.md)
   
 - [x] 1.4 Implement SSO configuration per organization

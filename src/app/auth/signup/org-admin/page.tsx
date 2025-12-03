@@ -358,7 +358,7 @@ export default function OrgAdminSignupPage() {
 
               <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                 <p className="text-sm text-purple-700">
-                  💡 <strong>Tip:</strong> You can configure SSO methods (Google, Facebook) and other settings from your admin dashboard after signup.
+                  💡 <strong>Tip:</strong> You can configure SSO methods (Google) and other settings from your admin dashboard after signup.
                 </p>
               </div>
 
