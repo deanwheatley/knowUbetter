@@ -1,7 +1,6 @@
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 
-const client = generateClient<Schema>();
+const client = generateClient<any>();
 
 /**
  * User Service
@@ -145,12 +144,14 @@ export const userService = {
     }
 
     const team = await client.models.Team.get({ id: teamId });
-    if (!team.data) {
+    if (!team || !team.data) {
       throw new Error('Team not found');
     }
 
+    const teamData = team.data as any;
+
     // Validate team belongs to user's organization
-    if (team.data.organizationId !== user.organizationId) {
+    if (teamData.organizationId !== user.organizationId) {
       throw new Error('Team does not belong to user organization');
     }
 
@@ -165,7 +166,7 @@ export const userService = {
     // Update team member count
     await client.models.Team.update({
       id: teamId,
-      memberCount: (team.data.memberCount || 0) + 1,
+      memberCount: (teamData.memberCount || 0) + 1,
     } as any);
   },
 
@@ -181,14 +182,16 @@ export const userService = {
     });
 
     if (memberships.data.length > 0) {
-      await client.models.TeamMember.delete({ id: memberships.data[0].id });
+      const membershipData = memberships.data[0] as any;
+      await client.models.TeamMember.delete({ id: membershipData.id });
 
       // Update team member count
       const team = await client.models.Team.get({ id: teamId });
-      if (team.data) {
+      if (team && team.data) {
+        const teamData = team.data as any;
         await client.models.Team.update({
           id: teamId,
-          memberCount: Math.max(0, (team.data.memberCount || 0) - 1),
+          memberCount: Math.max(0, (teamData.memberCount || 0) - 1),
         } as any);
       }
     }
@@ -204,12 +207,14 @@ export const userService = {
     }
 
     const team = await client.models.Team.get({ id: teamId });
-    if (!team.data) {
+    if (!team || !team.data) {
       throw new Error('Team not found');
     }
 
+    const teamData = team.data as any;
+
     // Validate team belongs to user's organization
-    if (team.data.organizationId !== user.organizationId) {
+    if (teamData.organizationId !== user.organizationId) {
       throw new Error('Team does not belong to user organization');
     }
 
@@ -224,7 +229,7 @@ export const userService = {
     }
 
     // Update team's teamAdminIds array
-    const teamAdminIds = team.data.teamAdminIds || [];
+    const teamAdminIds = teamData.teamAdminIds || [];
     if (!teamAdminIds.includes(userId)) {
       teamAdminIds.push(userId);
       await client.models.Team.update({
@@ -249,9 +254,11 @@ export const userService = {
     }
 
     const team = await client.models.Team.get({ id: teamId });
-    if (!team.data) {
+    if (!team || !team.data) {
       throw new Error('Team not found');
     }
+
+    const teamData = team.data as any;
 
     // Update user's teamAdminFor array
     const teamAdminFor = (user.teamAdminFor || []).filter((id: string) => id !== teamId);
@@ -261,7 +268,7 @@ export const userService = {
     } as any);
 
     // Update team's teamAdminIds array
-    const teamAdminIds = (team.data.teamAdminIds || []).filter((id: string) => id !== userId);
+    const teamAdminIds = (teamData.teamAdminIds || []).filter((id: string) => id !== userId);
     await client.models.Team.update({
       id: teamId,
       teamAdminIds,

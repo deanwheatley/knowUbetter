@@ -1,7 +1,6 @@
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 
-const client = generateClient<Schema>();
+const client = generateClient<any>();
 
 /**
  * Team Service
@@ -46,9 +45,10 @@ export const teamService = {
     }
 
     // Update organization team count
+    const orgData = org.data as any;
     await client.models.Organization.update({
       id: data.organizationId,
-      teamCount: (org.data.teamCount || 0) + 1,
+      teamCount: (orgData.teamCount || 0) + 1,
     } as any);
 
     return result.data;
@@ -122,10 +122,11 @@ export const teamService = {
 
     // Update organization team count
     const org = await client.models.Organization.get({ id: team.organizationId });
-    if (org.data) {
+    if (org && org.data) {
+      const orgData = org.data as any;
       await client.models.Organization.update({
         id: team.organizationId,
-        teamCount: Math.max(0, (org.data.teamCount || 0) - 1),
+        teamCount: Math.max(0, (orgData.teamCount || 0) - 1),
       } as any);
     }
   },
@@ -140,12 +141,14 @@ export const teamService = {
     }
 
     const user = await client.models.User.get({ id: userId });
-    if (!user.data) {
+    if (!user || !user.data) {
       throw new Error('User not found');
     }
 
+    const userData = user.data as any;
+
     // Validate user belongs to same organization
-    if (user.data.organizationId !== team.organizationId) {
+    if (userData.organizationId !== team.organizationId) {
       throw new Error('User does not belong to team organization');
     }
 
@@ -160,7 +163,7 @@ export const teamService = {
     }
 
     // Update user's teamAdminFor
-    const teamAdminFor = user.data.teamAdminFor || [];
+    const teamAdminFor = userData.teamAdminFor || [];
     if (!teamAdminFor.includes(teamId)) {
       teamAdminFor.push(teamId);
       await client.models.User.update({
@@ -170,7 +173,7 @@ export const teamService = {
     }
 
     // Upgrade user role if needed
-    if (user.data.role === 'USER') {
+    if (userData.role === 'USER') {
       await client.models.User.update({
         id: userId,
         role: 'TEAM_ADMIN',
@@ -188,9 +191,11 @@ export const teamService = {
     }
 
     const user = await client.models.User.get({ id: userId });
-    if (!user.data) {
+    if (!user || !user.data) {
       throw new Error('User not found');
     }
+
+    const userData = user.data as any;
 
     // Update team's teamAdminIds
     const teamAdminIds = (team.teamAdminIds || []).filter((id: string) => id !== userId);
@@ -200,14 +205,14 @@ export const teamService = {
     } as any);
 
     // Update user's teamAdminFor
-    const teamAdminFor = (user.data.teamAdminFor || []).filter((id: string) => id !== teamId);
+    const teamAdminFor = (userData.teamAdminFor || []).filter((id: string) => id !== teamId);
     await client.models.User.update({
       id: userId,
       teamAdminFor,
     } as any);
 
     // Downgrade user role if they're no longer admin of any team
-    if (teamAdminFor.length === 0 && user.data.role === 'TEAM_ADMIN') {
+    if (teamAdminFor.length === 0 && userData.role === 'TEAM_ADMIN') {
       await client.models.User.update({
         id: userId,
         role: 'USER',
@@ -244,12 +249,13 @@ export const teamService = {
 
     const members = [];
     for (const membership of memberships.data) {
-      const user = await client.models.User.get({ id: membership.userId });
-      if (user.data) {
+      const membershipData = membership as any;
+      const user = await client.models.User.get({ id: membershipData.userId });
+      if (user && user.data) {
         members.push({
           ...user.data,
-          membershipRole: membership.role,
-          joinedAt: membership.joinedAt,
+          membershipRole: membershipData.role,
+          joinedAt: membershipData.joinedAt,
         });
       }
     }
@@ -280,11 +286,13 @@ export const teamService = {
     }
 
     const user = await client.models.User.get({ id: userId });
-    if (!user.data) {
+    if (!user || !user.data) {
       return false;
     }
 
+    const userData = user.data as any;
+
     // Check if user belongs to same organization
-    return user.data.organizationId === team.organizationId;
+    return userData.organizationId === team.organizationId;
   },
 };

@@ -1,8 +1,7 @@
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 import type { Organization } from '@/types';
 
-const client = generateClient<Schema>();
+const client = generateClient<any>();
 
 /**
  * Organization Service
@@ -117,7 +116,7 @@ export const organizationService = {
    * List all organizations (System Admin only)
    */
   async list(): Promise<any[]> {
-    const result = await client.models.Organization.list();
+    const result = await client.models.Organization.list({});
     
     return result.data;
   },

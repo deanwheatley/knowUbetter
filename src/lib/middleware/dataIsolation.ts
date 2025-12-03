@@ -1,7 +1,6 @@
 import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '../../../amplify/data/resource';
 
-const client = generateClient<Schema>();
+const client = generateClient<any>();
 
 /**
  * Data Isolation Middleware
@@ -21,14 +20,15 @@ export const dataIsolation = {
   async getUserContext(userId: string): Promise<IsolationContext | null> {
     const user = await client.models.User.get({ id: userId });
     
-    if (!user.data) {
+    if (!user || !user.data) {
       return null;
     }
 
+    const userData = user.data as any;
     return {
-      userId: user.data.id,
-      organizationId: user.data.organizationId,
-      role: user.data.role as any,
+      userId: userData.id,
+      organizationId: userData.organizationId,
+      role: userData.role as any,
     };
   },
 
@@ -65,9 +65,11 @@ export const dataIsolation = {
 
     const team = await client.models.Team.get({ id: teamId });
     
-    if (!team.data) {
+    if (!team || !team.data) {
       return false;
     }
+
+    const teamData = team.data as any;
 
     // System admins can access any team
     if (context.role === 'SYSTEM_ADMIN') {
@@ -75,7 +77,7 @@ export const dataIsolation = {
     }
 
     // Check if team belongs to user's organization
-    return team.data.organizationId === context.organizationId;
+    return teamData.organizationId === context.organizationId;
   },
 
   /**
@@ -88,9 +90,11 @@ export const dataIsolation = {
     const requestingContext = await this.getUserContext(requestingUserId);
     const targetUser = await client.models.User.get({ id: targetUserId });
     
-    if (!requestingContext || !targetUser.data) {
+    if (!requestingContext || !targetUser || !targetUser.data) {
       return false;
     }
+
+    const targetUserData = targetUser.data as any;
 
     // System admins can access any user
     if (requestingContext.role === 'SYSTEM_ADMIN') {
@@ -98,7 +102,7 @@ export const dataIsolation = {
     }
 
     // Users can access other users in their organization
-    return requestingContext.organizationId === targetUser.data.organizationId;
+    return requestingContext.organizationId === targetUserData.organizationId;
   },
 
   /**
@@ -168,12 +172,14 @@ export const dataIsolation = {
 
     const team = await client.models.Team.get({ id: teamId });
     
-    if (!team.data) {
+    if (!team || !team.data) {
       return false;
     }
 
+    const teamData = team.data as any;
+
     // Check if user is in team's admin list
-    const teamAdminIds = team.data.teamAdminIds || [];
+    const teamAdminIds = teamData.teamAdminIds || [];
     return teamAdminIds.includes(userId);
   },
 
@@ -189,8 +195,8 @@ export const dataIsolation = {
 
     // System admins can access all organizations
     if (context.role === 'SYSTEM_ADMIN') {
-      const orgs = await client.models.Organization.list();
-      return orgs.data.map(org => org.id);
+      const orgs = await client.models.Organization.list({});
+      return orgs.data.map((org: any) => org.id);
     }
 
     // Other users can only access their own organization
@@ -212,6 +218,6 @@ export const dataIsolation = {
       filter: { organizationId: { eq: context.organizationId } },
     });
 
-    return teams.data.map(team => team.id);
+    return teams.data.map((team: any) => team.id);
   },
 };
