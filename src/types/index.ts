@@ -88,6 +88,11 @@ export interface Question {
   correctAnswer: string
   createdBy: string
   kudosReward: number
+  
+  // Scope
+  scope: 'global' | 'organization' | 'team'
+  organizationId?: string // if org or team scoped
+  teamId?: string // if team scoped
 }
 
 export interface QuestionCategory {
@@ -131,6 +136,27 @@ export interface Team {
   isAdminLocked: boolean
   memberCount: number
   totalKudos: number
+  createdAt: Date
+}
+
+export interface Invitation {
+  id: string
+  organizationId: string
+  teamIds: string[]
+  email: string
+  invitedBy: string // User ID
+  status: 'pending' | 'accepted' | 'expired'
+  expiresAt: Date
+  createdAt: Date
+  acceptedAt?: Date
+}
+
+export interface JoinRequest {
+  id: string
+  userId: string
+  teamId: string
+  message?: string
+  status: 'pending' | 'approved' | 'rejected'
   createdAt: Date
 }
 

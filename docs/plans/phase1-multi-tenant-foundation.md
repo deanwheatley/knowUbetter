@@ -20,23 +20,23 @@ Establish the core multi-tenant infrastructure including database schema, data m
   - **Requirements:** 5. User Profile Requirements
   - **Design:** User data model (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 1.3 Update Team table/model for organizations
+- [x] 1.3 Update Team table/model for organizations
   - Add: organizationId, pictureUrl, teamAdminIds array
   - Update: icon field for auto-generated icons
   - **Requirements:** 6. Team Management
   - **Design:** Team data model (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 1.4 Create Invitation table/model
+- [x] 1.4 Create Invitation table/model
   - Fields: id, organizationId, teamIds, email, invitedBy, status, expiresAt, createdAt
   - **Requirements:** 4. User Invitation & Onboarding
   - **Design:** Invitation data model (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 1.5 Create JoinRequest table/model
+- [x] 1.5 Create JoinRequest table/model
   - Fields: id, userId, teamId, message, status, createdAt
   - **Requirements:** 10. Cross-Team Visibility
   - **Design:** Database schema ERD (docs/design/architecture-diagrams.md)
   
-- [ ] 1.6 Update Question table/model for scoping
+- [x] 1.6 Update Question table/model for scoping
   - Add: scope (global/organization/team), organizationId, teamId
   - **Requirements:** 7. Question & Category Management
   - **Design:** Question data model (docs/design/multi-tenant-organizations-design.md)
