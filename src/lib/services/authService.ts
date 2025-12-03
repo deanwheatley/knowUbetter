@@ -282,4 +282,54 @@ export const authService = {
     const { signInWithRedirect } = await import('aws-amplify/auth');
     await signInWithRedirect({ provider: 'Facebook' });
   },
+
+  /**
+   * Get current user info
+   */
+  async getCurrentUser(): Promise<any> {
+    try {
+      const cognitoUser = await getCurrentUser();
+      const session = await fetchAuthSession();
+
+      if (!cognitoUser || !session.tokens) {
+        return null;
+      }
+
+      // Get user from database
+      const user = await userService.getByEmail(
+        cognitoUser.signInDetails?.loginId || cognitoUser.username
+      );
+
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  /**
+   * Update user profile
+   */
+  async updateUserProfile(updates: {
+    displayName?: string;
+    avatar?: string;
+    about?: string;
+  }): Promise<void> {
+    const cognitoUser = await getCurrentUser();
+    
+    if (!cognitoUser) {
+      throw new Error('Not authenticated');
+    }
+
+    const user = await userService.getByEmail(
+      cognitoUser.signInDetails?.loginId || cognitoUser.username
+    );
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const userData = user as any;
+
+    await userService.updateProfile(userData.id, updates);
+  },
 };
