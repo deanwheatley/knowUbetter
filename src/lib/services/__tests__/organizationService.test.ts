@@ -1,78 +1,320 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { organizationService } from '../organizationService';
 
-// Mock the Amplify client
+// Create mock client at module level
+const mockCreate = vi.fn();
+const mockGet = vi.fn();
+const mockUpdate = vi.fn();
+const mockDelete = vi.fn();
+const mockList = vi.fn();
+
+// Mock AWS Amplify client
 vi.mock('aws-amplify/data', () => ({
-  generateClient: () => ({
+  generateClient: vi.fn(() => ({
     models: {
       Organization: {
-        create: vi.fn(),
-        get: vi.fn(),
-        update: vi.fn(),
-        delete: vi.fn(),
-        list: vi.fn(),
+        create: mockCreate,
+        get: mockGet,
+        update: mockUpdate,
+        delete: mockDelete,
+        list: mockList,
       },
     },
-  }),
+  })),
 }));
 
-describe('OrganizationService', () => {
+describe('organizationService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe('create', () => {
-    it('should create organization with default values', async () => {
-      const mockOrg = {
-        id: 'org-1',
+    it('should create organization with defaults', async () => {
+      mockCreate.mockResolvedValue({
+        data: {
+          id: 'org-1',
+          name: 'Test Org',
+          status: 'ACTIVE',
+          totalLicenses: 'unlimited',
+        },
+      } as any);
+
+      const result = await organizationService.create({
+        name: 'Test Org',
+        createdBy: 'user-1',
+      });
+
+      expect(mockClient.models.Organization.create).toHaveBeenCalledWith({
         name: 'Test Org',
         createdBy: 'user-1',
         status: 'ACTIVE',
         totalLicenses: 'unlimited',
         usedLicenses: 0,
-      };
+        primaryColor: '#3B82F6',
+        secondaryColor: '#8B5CF6',
+        ssoKnowUbetter: true,
+        ssoGoogle: true,
+        ssoEnterpriseEnabled: false,
+        kudosPerQuestion: 10,
+        weeklyQuestionLimit: 50,
+        invitationExpirationDays: 30,
+        teamCount: 0,
+        userCount: 1,
+        activeUserCount: 1,
+      });
 
-      // Test would verify organization creation
-      expect(organizationService.create).toBeDefined();
+      expect(result.id).toBe('org-1');
     });
 
     it('should create organization with custom branding', async () => {
-      // Test custom branding
-      expect(organizationService.create).toBeDefined();
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.create).mockResolvedValue({
+        data: {
+          id: 'org-2',
+          name: 'Custom Org',
+          logoUrl: 'https://example.com/logo.png',
+          primaryColor: '#FF0000',
+        },
+      } as any);
+
+      await organizationService.create({
+        name: 'Custom Org',
+        createdBy: 'user-1',
+        logoUrl: 'https://example.com/logo.png',
+        primaryColor: '#FF0000',
+        secondaryColor: '#00FF00',
+      });
+
+      expect(mockClient.models.Organization.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          logoUrl: 'https://example.com/logo.png',
+          primaryColor: '#FF0000',
+          secondaryColor: '#00FF00',
+        })
+      );
     });
   });
 
-  describe('license management', () => {
-    it('should check available licenses for unlimited org', async () => {
-      expect(organizationService.checkAvailableLicenses).toBeDefined();
+  describe('getById', () => {
+    it('should return organization by ID', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          name: 'Test Org',
+        },
+      } as any);
+
+      const result = await organizationService.getById('org-1');
+
+      expect(mockClient.models.Organization.get).toHaveBeenCalledWith({ id: 'org-1' });
+      expect(result.id).toBe('org-1');
     });
 
-    it('should reserve license when available', async () => {
-      expect(organizationService.reserveLicense).toBeDefined();
-    });
+    it('should return null if organization not found', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
 
-    it('should not reserve license when none available', async () => {
-      expect(organizationService.reserveLicense).toBeDefined();
-    });
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: null,
+      } as any);
 
-    it('should release license', async () => {
-      expect(organizationService.releaseLicense).toBeDefined();
+      const result = await organizationService.getById('non-existent');
+
+      expect(result).toBeNull();
     });
   });
 
   describe('update', () => {
-    it('should update organization branding', async () => {
-      expect(organizationService.update).toBeDefined();
-    });
+    it('should update organization fields', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
 
-    it('should update organization settings', async () => {
-      expect(organizationService.update).toBeDefined();
-    });
+      vi.mocked(mockClient.models.Organization.update).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          name: 'Updated Org',
+          primaryColor: '#FF0000',
+        },
+      } as any);
 
-    it('should update SSO configuration', async () => {
-      expect(organizationService.update).toBeDefined();
+      const result = await organizationService.update('org-1', {
+        name: 'Updated Org',
+        primaryColor: '#FF0000',
+      });
+
+      expect(mockClient.models.Organization.update).toHaveBeenCalledWith({
+        id: 'org-1',
+        name: 'Updated Org',
+        primaryColor: '#FF0000',
+      });
+
+      expect(result.name).toBe('Updated Org');
     });
   });
 
-  describe('metrics', () => {
-    it('should update organization metrics', async () => {
-      expect(organizationService.updateMetrics).toBeDefined();
+  describe('checkAvailableLicenses', () => {
+    it('should return unlimited for unlimited licenses', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 'unlimited',
+        },
+      } as any);
+
+      const result = await organizationService.checkAvailableLicenses('org-1');
+
+      expect(result).toBe('unlimited');
+    });
+
+    it('should return available license count', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 100,
+          availableLicenses: 45,
+        },
+      } as any);
+
+      const result = await organizationService.checkAvailableLicenses('org-1');
+
+      expect(result).toBe(45);
+    });
+  });
+
+  describe('reserveLicense', () => {
+    it('should reserve license for unlimited plan', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 'unlimited',
+        },
+      } as any);
+
+      const result = await organizationService.reserveLicense('org-1');
+
+      expect(result).toBe(true);
+      expect(mockClient.models.Organization.update).not.toHaveBeenCalled();
+    });
+
+    it('should reserve license and increment usedLicenses', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 100,
+          usedLicenses: 50,
+          availableLicenses: 50,
+        },
+      } as any);
+
+      vi.mocked(mockClient.models.Organization.update).mockResolvedValue({
+        data: { id: 'org-1', usedLicenses: 51 },
+      } as any);
+
+      const result = await organizationService.reserveLicense('org-1');
+
+      expect(result).toBe(true);
+      expect(mockClient.models.Organization.update).toHaveBeenCalledWith({
+        id: 'org-1',
+        usedLicenses: 51,
+      });
+    });
+
+    it('should return false if no licenses available', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 100,
+          usedLicenses: 100,
+          availableLicenses: 0,
+        },
+      } as any);
+
+      const result = await organizationService.reserveLicense('org-1');
+
+      expect(result).toBe(false);
+      expect(mockClient.models.Organization.update).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('releaseLicense', () => {
+    it('should not update for unlimited licenses', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 'unlimited',
+        },
+      } as any);
+
+      await organizationService.releaseLicense('org-1');
+
+      expect(mockClient.models.Organization.update).not.toHaveBeenCalled();
+    });
+
+    it('should decrement usedLicenses', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 100,
+          usedLicenses: 50,
+        },
+      } as any);
+
+      vi.mocked(mockClient.models.Organization.update).mockResolvedValue({
+        data: { id: 'org-1', usedLicenses: 49 },
+      } as any);
+
+      await organizationService.releaseLicense('org-1');
+
+      expect(mockClient.models.Organization.update).toHaveBeenCalledWith({
+        id: 'org-1',
+        usedLicenses: 49,
+      });
+    });
+
+    it('should not go below zero licenses', async () => {
+      const { generateClient } = await import('aws-amplify/data');
+      const mockClient = generateClient();
+
+      vi.mocked(mockClient.models.Organization.get).mockResolvedValue({
+        data: {
+          id: 'org-1',
+          totalLicenses: 100,
+          usedLicenses: 0,
+        },
+      } as any);
+
+      await organizationService.releaseLicense('org-1');
+
+      expect(mockClient.models.Organization.update).toHaveBeenCalledWith({
+        id: 'org-1',
+        usedLicenses: 0,
+      });
     });
   });
 });
