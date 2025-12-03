@@ -9,12 +9,12 @@ Establish the core multi-tenant infrastructure including database schema, data m
 ## Tasks
 
 ### 1. Database Schema & Data Models
-- [ ] 1.1 Create Organization table/model with all fields
+- [x] 1.1 Create Organization table/model with all fields
   - Fields: id, name, totalLicenses, usedLicenses, branding, ssoConfig, settings, createdAt
   - **Requirements:** 1. Organization Structure, 2. License Management, 3. Organization Branding
   - **Design:** Organization data model (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 1.2 Update User table/model for multi-tenancy
+- [x] 1.2 Update User table/model for multi-tenancy
   - Add: organizationId, role, teamAdminFor array
   - Update: teamIds to support multiple teams
   - **Requirements:** 5. User Profile Requirements
