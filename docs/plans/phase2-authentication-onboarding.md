@@ -9,23 +9,33 @@ Implement authentication system with SSO support and complete user onboarding fl
 ## Tasks
 
 ### 1. Authentication Infrastructure
-- [x] 1.1 Set up AWS Cognito user pools per organization
-  - Configure Cognito, create user pool structure
+- [x] 1.1 Set up NextAuth.js with multiple providers
+  - Configure NextAuth.js, Google and Facebook providers
   - **Requirements:** 3. Organization Branding (Authentication Configuration)
   - **Design:** Authentication architecture (docs/design/architecture-diagrams.md)
   
 - [x] 1.2 Implement Google OAuth integration
-  - Configure Google OAuth, implement callback handling
+  - Configure Google OAuth provider in NextAuth.js
   - **Requirements:** 3. Organization Branding (Google SSO)
   - **Design:** Authentication flow (docs/design/architecture-diagrams.md)
   
-- [x] 1.4 Implement SSO configuration per organization
+- [ ] 1.3 Implement Facebook OAuth integration
+  - Configure Facebook OAuth provider in NextAuth.js
+  - **Requirements:** 3. Organization Branding (Facebook SSO)
+  - **Design:** Authentication flow (docs/design/architecture-diagrams.md)
+  
+- [ ] 1.4 Implement credentials provider for email/password
+  - Add credentials provider for email/password authentication
+  - **Requirements:** 3. Organization Branding (Email/Password Auth)
+  - **Design:** Authentication flow (docs/design/architecture-diagrams.md)
+  
+- [ ] 1.5 Implement SSO configuration per organization
   - Enable/disable SSO methods, validate org settings
   - **Requirements:** 3. Organization Branding (SSO Configuration)
   - **Design:** Organization SSO config (docs/design/multi-tenant-organizations-design.md)
   
-- [x] 1.5 Implement session management with organization context
-  - Store org context in session, validate on each request
+- [ ] 1.6 Implement session management with organization context
+  - Store org context in NextAuth session, validate on each request
   - **Requirements:** 9. Data Isolation
   - **Design:** Session management (docs/design/architecture-diagrams.md)
 
@@ -135,7 +145,10 @@ Implement authentication system with SSO support and complete user onboarding fl
   - **Felix Guidelines:** Always validate builds
 
 ## Completion Criteria
-- [ ] All authentication methods working (email, Google, Facebook)
+- [x] NextAuth.js configured with Google OAuth
+- [ ] Facebook OAuth provider added to NextAuth.js
+- [ ] Credentials provider for email/password authentication
+- [ ] Organization-aware authentication (SSO method filtering)
 - [ ] Login page complete with SSO options
 - [ ] Standard user signup flow complete
 - [ ] Organization admin signup flow complete (3 steps)

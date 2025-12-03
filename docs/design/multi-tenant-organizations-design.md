@@ -85,13 +85,19 @@ User (base role)
 
 ### 4. Authentication & SSO
 
-**Decision:** Organization Admins control which SSO methods are enabled.
+**Decision:** Use NextAuth.js for authentication with organization-level SSO configuration.
 
 **Supported Methods:**
-- knowUbetter (email/password) - always enabled
+- Email/password (credentials provider) - always enabled
 - Google SSO - optional
 - Facebook SSO - optional
-- Enterprise SSO (Okta, SAML) - coming soon
+- Enterprise SSO (Okta, SAML) - future enhancement
+
+**Implementation:**
+- NextAuth.js handles OAuth flows and session management
+- Organization settings control which providers are enabled
+- Custom signin page shows only enabled methods per organization
+- Session includes organization context for data isolation
 
 **Disabled Method Behavior:**
 - Grayed out on login/signup screens
@@ -202,7 +208,7 @@ interface Organization {
   
   // Authentication
   ssoConfig: {
-    knowUbetter: boolean // always true
+    credentials: boolean // always true (email/password)
     google: boolean
     facebook: boolean
     enterpriseSSO?: {
@@ -258,7 +264,7 @@ interface User {
   // Metadata
   createdAt: Date
   lastActiveAt: Date
-  authProvider: 'knowubetter' | 'google' | 'facebook' | 'sso'
+  authProvider: 'credentials' | 'google' | 'facebook' | 'sso'
 }
 ```
 
@@ -362,9 +368,10 @@ interface Question {
 - Hierarchical roles simplify permission logic
 
 ### 3. SSO Security
-- OAuth 2.0 for Google and Facebook
-- SAML 2.0 for enterprise SSO (future)
-- Secure token storage and refresh
+- NextAuth.js handles OAuth 2.0 flows securely
+- JWT tokens with organization context
+- Secure session storage (database or encrypted cookies)
+- CSRF protection built into NextAuth.js
 
 ### 4. Invitation Security
 - Unique tokens with expiration

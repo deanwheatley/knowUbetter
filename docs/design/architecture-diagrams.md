@@ -31,7 +31,7 @@ graph TB
     end
     
     subgraph "External Services"
-        Cognito[AWS Cognito<br/>Auth]
+        NextAuth[NextAuth.js<br/>Session Management]
         GoogleSSO[Google OAuth]
         FacebookSSO[Facebook OAuth]
         Email[Email Service<br/>SES]
@@ -40,11 +40,11 @@ graph TB
     Web --> NextJS
     Mobile -.-> NextJS
     NextJS --> API
-    API --> Auth
+    API --> NextAuth
     
-    Auth --> Cognito
-    Auth --> GoogleSSO
-    Auth --> FacebookSSO
+    NextAuth --> GoogleSSO
+    NextAuth --> FacebookSSO
+    NextAuth --> DynamoDB
     
     API --> OrgService
     API --> UserService
@@ -239,7 +239,7 @@ erDiagram
 sequenceDiagram
     participant U as User
     participant C as Client
-    participant A as Auth Service
+    participant NA as NextAuth.js
     participant SSO as SSO Provider
     participant DB as Database
     
@@ -248,33 +248,32 @@ sequenceDiagram
     
     alt Email/Password
         U->>C: Enter credentials
-        C->>A: Authenticate
-        A->>DB: Verify credentials
-        DB-->>A: User data
-        A-->>C: Session token
+        C->>NA: Authenticate
+        NA->>DB: Verify credentials
+        DB-->>NA: User data
+        NA-->>C: Session cookie
     else Google SSO
         U->>C: Click Google
-        C->>SSO: Redirect to Google
+        C->>NA: Initiate Google OAuth
+        NA->>SSO: Redirect to Google
         SSO->>U: Google login
         U->>SSO: Authenticate
-        SSO-->>C: OAuth token
-        C->>A: Verify token
-        A->>DB: Find/create user
-        DB-->>A: User data
-        A-->>C: Session token
+        SSO-->>NA: OAuth token
+        NA->>DB: Find/create user
+        DB-->>NA: User data
+        NA-->>C: Session cookie
     else Facebook SSO
         U->>C: Click Facebook
-        C->>SSO: Redirect to Facebook
+        C->>NA: Initiate Facebook OAuth
+        NA->>SSO: Redirect to Facebook
         SSO->>U: Facebook login
         U->>SSO: Authenticate
-        SSO-->>C: OAuth token
-        C->>A: Verify token
-        A->>DB: Find/create user
-        DB-->>A: User data
-        A-->>C: Session token
+        SSO-->>NA: OAuth token
+        NA->>DB: Find/create user
+        DB-->>NA: User data
+        NA-->>C: Session cookie
     end
     
-    C->>C: Store session
     C->>U: Redirect to dashboard
 ```
 

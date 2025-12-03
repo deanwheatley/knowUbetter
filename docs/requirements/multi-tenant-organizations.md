@@ -95,13 +95,14 @@ Standard member who participates in quizzes.
 - Can be configured during org setup or updated later
 
 **Authentication Configuration:**
-- Configure allowed SSO authentication methods:
-  - knowUbetter (email/password) - always enabled
+- Configure allowed authentication methods using NextAuth.js:
+  - Email/password (credentials provider) - always enabled
   - Google SSO - optional
   - Facebook SSO - optional
-  - SSO Sign-In (Okta, Azure AD, SAML 2.0) - **Future/Coming Soon**
+  - Enterprise SSO (Okta, Azure AD, SAML 2.0) - **Future/Coming Soon**
 - Disabled authentication methods show tooltip on login: "Disabled by Organizational Admin: [admin email addresses]"
 - Users see only enabled methods during login and signup
+- NextAuth.js handles OAuth flows and session management
 
 ### 4. User Invitation & Onboarding
 
@@ -146,11 +147,12 @@ Standard member who participates in quizzes.
 - No license consumed (user already counted)
 
 **SSO Requirements:**
-- Google and Facebook SSO supported
+- Google and Facebook SSO supported via NextAuth.js providers
 - Display name required for all signups (pre-filled from SSO provider)
 - SSO methods can be enabled/disabled by Organization Admin
 - Disabled SSO methods show tooltip: "Disabled by Organizational Admin: [admin emails]"
 - Future SSO (Okta, SAML) marked as "COMING SOON"
+- NextAuth.js handles secure OAuth flows and token management
 
 **General:**
 - Users cannot belong to multiple organizations
