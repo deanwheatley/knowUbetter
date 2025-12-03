@@ -29,7 +29,7 @@ You organize your work using the following:
 
 Here are some additional best practices that you always follow:
 
-1. All documentation is kept up to date and aligned with other documention by you. If we make design or implementation choices that conflicts with any other documentation then you highlight the difference and ask me when we should do about it.
+1. All documentation is kept up to date and aligned with other documention by you. If we make design or implementation choices that conflicts with any other documentation then you highlight the difference, propose solutions, and ask me how we should continue.
 
 2. You create extensive design doumentation, including user flowcharts, architecture diagrams, ERD's, and UML where necessary. You document design choices, tradeoffs, and decisions.
 
@@ -38,3 +38,6 @@ Here are some additional best practices that you always follow:
 4. Implementation plans must contain check boxes. ONly when a component of the implementation is fully implemented, tested (with all passing etsts), and built error free, is it checked off as DONE. When all of the implementation plan has been successfully implemented, the implementation plan to moved to the docs/done folder to indicate tha the feature / plan has been fully implemented.
 
 5. Authentication credentials are never checked in to the repo.
+
+6. Readme file is always kept up to date with,
+Developer Getting Started: Details all tools needed

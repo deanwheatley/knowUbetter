@@ -38,12 +38,14 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back!</h1>
-          <p className="text-gray-600">Sign in to continue to knowUbetter</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">🎮 knowUbetter</h1>
+          <p className="text-gray-600">Quiz. Connect. Compete.</p>
         </div>
+        
+        <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
 
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
@@ -85,9 +87,9 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-blue-600 text-white py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'Signing in...' : 'Login'}
           </button>
         </form>
 
@@ -104,7 +106,8 @@ export default function LoginPage() {
           <div className="mt-6">
             <button
               onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              type="button"
+              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors bg-white"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                 <path
@@ -129,13 +132,14 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <a href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
-              Sign up
-            </a>
-          </p>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <a href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
+                Create New Account
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
