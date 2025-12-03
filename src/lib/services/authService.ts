@@ -217,10 +217,29 @@ export const authService = {
     teamIds?: string[];
     invitationId?: string;
   }> {
-    // This would query the Invitation model
-    // For now, returning a placeholder
+    const { invitationService } = await import('./invitationService');
+    
+    // We need to check all organizations for this email
+    // For now, we'll get the first pending invitation
+    const allInvitations = await invitationService.listByOrganization('', 'PENDING');
+    const invitation = allInvitations.find((inv: any) => inv.email === email);
+
+    if (!invitation) {
+      return {
+        hasInvitation: false,
+      };
+    }
+
+    const invitationData = invitation as any;
+    const org = await organizationService.getById(invitationData.organizationId);
+    const orgData = org as any;
+
     return {
-      hasInvitation: false,
+      hasInvitation: true,
+      organizationId: invitationData.organizationId,
+      organizationName: orgData?.name,
+      teamIds: invitationData.teamIds,
+      invitationId: invitationData.id,
     };
   },
 
@@ -235,31 +254,41 @@ export const authService = {
       displayName: string;
     }
   ): Promise<void> {
+    const { invitationService } = await import('./invitationService');
+    
     // Get invitation details
-    const invitation = await this.checkInvitation(userData.email);
+    const invitation = await invitationService.getById(invitationId);
 
-    if (!invitation.hasInvitation || !invitation.organizationId) {
-      throw new Error('No valid invitation found');
+    if (!invitation) {
+      throw new Error('Invitation not found');
     }
+
+    const invitationData = invitation as any;
 
     // Create user
-    await this.signUpUser({
-      email: userData.email,
+    const cognitoResult = await signUp({
+      username: userData.email,
       password: userData.password,
-      displayName: userData.displayName,
-      organizationId: invitation.organizationId,
-      invitationId,
+      options: {
+        userAttributes: {
+          email: userData.email,
+          preferred_username: userData.displayName,
+        },
+      },
     });
 
-    // Assign to teams
-    if (invitation.teamIds) {
-      for (const teamId of invitation.teamIds) {
-        await userService.addToTeam(userData.email, teamId);
-      }
-    }
+    // Create user record in database
+    const user = await userService.create({
+      username: userData.email,
+      email: userData.email,
+      displayName: userData.displayName,
+      organizationId: invitationData.organizationId,
+      role: 'USER',
+      authProvider: 'KNOWUBETTER',
+    });
 
-    // Mark invitation as accepted
-    // This would update the Invitation model
+    // Accept invitation (assigns to teams)
+    await invitationService.accept(invitationId, user.id);
   },
 
   /**
