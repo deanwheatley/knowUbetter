@@ -29,13 +29,14 @@ Super user who purchases licenses and manages their organization.
 - View organization analytics and audit logs
 
 ### Team Admin
-User designated to manage specific team(s).
+User with elevated privileges to manage specific team(s). This is not a separate role, but additional permissions granted to regular users for specific teams.
 
 **Responsibilities:**
 - Invite users to their assigned teams
-- Manage team members
-- Configure team-specific settings
-- View team statistics
+- Manage team members for teams they admin
+- Configure team-specific settings for their teams
+- View team statistics for their teams
+- Approve/manage questions for their teams
 
 ### User
 Standard member who participates in quizzes.
@@ -54,15 +55,18 @@ Standard member who participates in quizzes.
 
 **Organization Creation:**
 - Organizations are created automatically when a user signs up as Organization Admin
-- During signup, Org Admin provides:
-  - Organization name
-  - First team name
-  - Estimated organization size (1-5, 6-20, 21-50, 51+ users)
+- **TurboTax-Style Quick Setup**: Simple questions instead of complex configuration
+  - Question 1: "What kind of organization are you?" (Ad Tech, Software Engineering, Advertising)
+  - Question 2: "How is your organization structured?" (Departments, Project Teams, One Big Team, Custom)
+  - Question 3: "What would you like to do first?" (Invite team, Add questions, Customize, Start now)
+- **Smart Defaults**: Auto-configuration based on organization type
+- **Progressive Disclosure**: Advanced configuration available but not required
 - New organizations get:
-  - Default categories and settings
-  - Access to global questions
-  - FREE unlimited licenses (initial implementation)
-  - Default branding (can customize immediately)
+  - Smart defaults based on organization type
+  - Pre-configured teams based on structure choice
+  - Industry-appropriate branding and settings
+  - 20 evaluation licenses with configurable period
+  - "You can change these settings anytime" messaging
 
 **System Admin Capabilities:**
 - View all organizations and their metrics
@@ -74,15 +78,33 @@ Standard member who participates in quizzes.
 
 ### 2. License Management
 
-**As an Organization Admin, I want to manage licenses so that I can control user capacity.**
+**As an Organization Admin, I want to manage licenses so that I can control user capacity during and after my evaluation period.**
 
+**Evaluation Period Model:**
+- New organizations get 20 free licenses for configurable evaluation period
+- Default evaluation period set by System Admin (e.g., 30 days)
+- System Admin can set different evaluation periods per organization
+- System Admin can extend evaluation periods and grant additional licenses
 - Every user invitation consumes 1 license
-- License dashboard shows: total, used, available, pending invitations
-- Cannot invite users when licenses are exhausted
+- License dashboard shows: total, used, available, pending invitations, days remaining
+- Cannot invite users when licenses are exhausted or evaluation expired
 - Removing users releases licenses
-- Expired invitations (7 days) release licenses
-- **Initial implementation: licenses are FREE (unlimited)**
-- Future: Org Admin can request additional licenses from System Admin
+- Expired invitations release licenses
+
+**System Admin Controls:**
+- Configure default evaluation period for new organizations
+- Set custom evaluation period per organization
+- Grant additional licenses to any organization
+- Extend evaluation periods
+- Convert organizations to paid plans (future)
+
+**Real-time Notifications:**
+- Organization Admin receives dialog notification when:
+  - Evaluation period is extended
+  - Additional licenses are granted
+  - Evaluation period is modified
+- If Org Admin is online: immediate dialog notification
+- If Org Admin is offline: dialog shown on next login
 
 ### 3. Organization Branding
 
@@ -126,7 +148,9 @@ Standard member who participates in quizzes.
 - When enabled, expired invitations release reserved licenses
 - Expired invitations can be resent with one click
 - Admins can manually cancel/rescind invitations at any time
-- If set to "Never expire", invitations remain valid until manually cancelled
+- **Never expire implementation**: `expiresAt: null` - no expiration date set
+- Cron job skips invitations with `null` expiration dates
+- Never-expiring invitations remain valid until manually cancelled
 
 **With Invitation (New Users):**
 - When user enters email during signup, system checks for pending invitations
@@ -206,18 +230,26 @@ Standard member who participates in quizzes.
 
 **As an Organization Admin, I want to configure questions so that I can customize quiz content.**
 
+**Question Scoping (Hybrid Approach):**
+- **People category**: Defaults to team-scoped (users see questions about their teammates)
+- **Other categories** (Product, Lore, Industry): Default to global/organization-scoped
+- **Admin override**: Any question can be manually assigned to specific teams regardless of category
+- **Multi-team users**: See People questions from ALL their teams (with team context shown)
+
+**Question Management:**
 - View global questions (available to all organizations)
 - Enable/disable global questions for organization
 - Create organization-specific questions
 - Approve user-submitted questions
 - Create custom categories for organization
-- Assign questions to specific teams
+- Override default scoping and assign questions to specific teams
 - User submissions route to their Org Admin
 
 **Global Questions:**
 - Created by System Admin
 - Available to all organizations
 - Organizations can enable/disable individually
+- Can be overridden to team-specific if needed
 
 ### 8. Quiz Configuration
 
@@ -264,7 +296,29 @@ System Admin sets defaults; Org Admins can override.
 - Answer team-scoped questions from their teams
 - Earn kudos that contributes to team and organization leaderboards
 
-### 11. Audit & Compliance
+### 11. Direct Messaging
+
+**As a user, I want to message my teammates so that I can build relationships around quiz activities.**
+
+**Team-Scoped Messaging:**
+- Users can only message teammates (users on same teams)
+- Async messaging system (no real-time requirements)
+- Messages enhance core quiz activities without overwhelming them
+
+**Message Integration with Core Activities:**
+- **Question creation**: "I submitted a question about you - hope that's okay!"
+- **Know You responses**: "I updated my answer about weekend plans"
+- **Quiz results**: "I learned something new about you today!"
+- **Props system**: "Thanks for the mad-prop! That made my day"
+
+**Message Features:**
+- Quick message templates for common scenarios
+- Custom free-form messages
+- Message history and read status
+- Integration with user profiles and quiz activities
+- Notification system for new messages
+
+### 12. Audit & Compliance
 
 **As an Organization Admin, I want audit logs so that I can monitor usage.**
 
@@ -274,7 +328,33 @@ System Admin sets defaults; Org Admins can override.
 - System Admin can view cross-organization audit logs
 - All admin actions logged with timestamp, user, action type, affected resources
 
-### 12. Migration of Existing Data
+### 13. Quick Setup & Progressive Configuration
+
+**As an Organization Admin, I want quick setup so that I can start using the platform immediately.**
+
+**TurboTax-Style Setup Flow:**
+- Replace complex configuration screens with 3 simple questions
+- Auto-configure organization based on responses
+- Complete setup in under 2 minutes
+- Always show "You can change these settings anytime" messaging
+
+**Organization Type Templates:**
+- **Ad Tech**: Modern branding, Google auth, project-based teams, 30-day eval
+- **Software Engineering**: Professional branding, all auth options, department teams, 30-day eval  
+- **Advertising**: Creative branding, Google/Facebook auth, campaign teams, 30-day eval
+
+**Progressive Configuration:**
+- Quick setup gets users started immediately
+- Advanced configuration available in settings
+- Migration path from quick setup to advanced setup
+- Templates can be modified after initial setup
+
+**Success Metrics:**
+- Setup completion rate: Target 90%+ (vs current ~60%)
+- Time to first value: Target <5 minutes
+- Configuration accuracy: Fewer support tickets about setup
+
+### 14. Migration of Existing Data
 
 **As a System Admin, I want to migrate existing data so that current users continue without disruption.**
 

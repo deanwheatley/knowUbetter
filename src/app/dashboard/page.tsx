@@ -1,6 +1,44 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { authService } from '@/lib/services/authService';
+
 export default function DashboardPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    try {
+      const isAuth = await authService.isAuthenticated();
+      if (!isAuth) {
+        router.push('/auth/login');
+        return;
+      }
+      setAuthenticated(true);
+    } catch (error) {
+      router.push('/auth/login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading || !authenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Mock data
   const user = {
     username: 'player1',

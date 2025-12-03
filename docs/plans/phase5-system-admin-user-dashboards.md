@@ -1,4 +1,4 @@
-# Phase 5: System Admin & User Dashboards - Implementation Plan
+# Phase 6: System Admin & User Dashboards - Implementation Plan
 
 ## Overview
 Implement System Admin dashboard for managing all organizations, user dashboards with organization context, and user profile management.
@@ -173,9 +173,11 @@ Implement System Admin dashboard for managing all organizations, user dashboards
 
 ## Dependencies
 - Phase 1: Multi-Tenant Foundation
-- Phase 2: Authentication & Onboarding
-- Phase 3: Invitation & Team Management
-- Phase 4: Org Admin Dashboard & Settings
+- Phase 1A: Additional Data Models
+- Phase 2: Authentication & Quick Setup
+- Phase 3: Direct Messaging System
+- Phase 4: Invitation & Team Management
+- Phase 5: Organization Admin Dashboard & Settings
 
 ## Next Phase
-Phase 6: Migration & Final Integration
+Phase 7: Migration & Final Integration

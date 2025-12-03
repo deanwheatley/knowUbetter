@@ -25,15 +25,20 @@ Users belong to teams for team-scoped questions and leaderboards. Enables person
 
 ### Team-Scoped Content
 
-#### People Category Questions
-- **Only visible to team members**
-- "What is Alice's favorite color?" only shown to Alice's teammates
+#### Hybrid Question Scoping
+
+**People Category (Default: Team-Scoped):**
+- "What is Alice's favorite color?" shown to Alice's teammates by default
 - If user is on multiple teams, sees People questions from all their teams
 - "Know You" questions automatically scoped to user's team(s)
+- Questions show team context: "[Engineering Team] What is Alice's favorite color?"
+- Admins can override to make People questions global or org-wide
 
-#### Other Categories (Global)
-- Product, Lore, Industry questions are **global** (all users see them)
-- Admin can optionally make categories team-scoped in future
+**Other Categories (Default: Global/Org-Scoped):**
+- Product, Lore, Industry questions are global by default (all org users see them)
+- Admins can override and assign specific questions to teams
+- Example: "[Sales Team] What is our Q4 sales target?" - only visible to Sales team
+- Flexible assignment allows targeted content for specific teams
 
 ### Team Leaderboards
 - Each team has its own leaderboard

@@ -34,8 +34,11 @@ A quiz-based social game where users answer questions, earn kudos, and give prop
 - Users can be on multiple teams
 - Teams can be created by users or admin
 - Teams have names, colors, icons
-- **People category questions are team-scoped** (only see questions about teammates)
-- Other categories (Product, Lore, Industry) are global
+- **Hybrid question scoping**:
+  - People category: Defaults to team-scoped (see questions about teammates)
+  - Other categories: Default to global, but can be team-assigned by admins
+  - Multi-team users see People questions from all their teams
+  - Questions show team context when relevant
 - Team-specific leaderboards
 
 ### 4. Kudos Economy
@@ -122,7 +125,17 @@ A quiz-based social game where users answer questions, earn kudos, and give prop
   - 50+ answers: +10 bonus
   - 100% correct rate: +15 bonus
 
-### 13. Admin Panel
+### 13. Direct Messaging
+- **Team-scoped messaging**: Users can message teammates only
+- **Async messaging**: No real-time requirements, message history preserved
+- **Activity integration**: Quick message buttons in quiz results, props, profile updates
+- **Message templates**: Pre-written messages for common scenarios
+- **Custom messages**: Free-form text for deeper conversations
+- **Notification system**: Unread message indicators and notifications
+- **Message center**: Accessible from main navigation
+- **Enhances core activities**: Messaging tied to quiz activities, not general chat
+
+### 14. Admin Panel
 - Question approval queue (approve/reject/edit, bulk operations)
 - User management (view stats, ban, reset)
 - Configuration panel (all settings)
@@ -130,9 +143,13 @@ A quiz-based social game where users answer questions, earn kudos, and give prop
 - Category management (add/remove/rename, set icons/colors)
 - Team management
 - Audit log
+- **Quick Setup Templates**: TurboTax-style organization setup with smart defaults
 
 ## Future Features
 - 🔮 Slack integration
+- 🔮 Real-time messaging (currently async)
+- 🔮 Cross-organization messaging (currently team-scoped)
+- 🔮 Message reactions and threading
 
 ## Resolved Requirements
 1. ✅ Question creation: Any user can submit, admin approval required

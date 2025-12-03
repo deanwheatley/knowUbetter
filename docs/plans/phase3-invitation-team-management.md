@@ -1,4 +1,4 @@
-# Phase 3: Invitation & Team Management - Implementation Plan
+# Phase 4: Invitation & Team Management - Implementation Plan
 
 ## Overview
 Implement smart invitation processing, team management for Org Admins and Team Admins, and team join request functionality.
@@ -63,6 +63,7 @@ Implement smart invitation processing, team management for Org Admins and Team A
   
 - [x] 3.2 Implement expiration checking and license release
   - Cron job to check expired invitations, release licenses
+  - Skip invitations with `expiresAt: null` (never expire)
   - **Requirements:** 4. User Invitation & Onboarding (Invitation Expiration)
   - **Design:** Invitation expiration (docs/design/multi-tenant-organizations-design.md)
   
@@ -178,7 +179,9 @@ Implement smart invitation processing, team management for Org Admins and Team A
 
 ## Dependencies
 - Phase 1: Multi-Tenant Foundation
-- Phase 2: Authentication & Onboarding
+- Phase 1A: Additional Data Models
+- Phase 2: Authentication & Quick Setup
+- Phase 3: Direct Messaging System (for enhanced team interaction)
 
 ## Next Phase
-Phase 4: Organization Admin Dashboard & Settings
+Phase 5: Organization Admin Dashboard & Settings

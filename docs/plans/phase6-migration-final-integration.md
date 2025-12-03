@@ -1,4 +1,4 @@
-# Phase 6: Migration & Final Integration - Implementation Plan
+# Phase 7: Migration & Final Integration - Implementation Plan
 
 ## Overview
 Migrate existing data to multi-tenant structure, perform final integration testing, and prepare for production deployment.
@@ -169,10 +169,12 @@ Migrate existing data to multi-tenant structure, perform final integration testi
 
 ## Dependencies
 - Phase 1: Multi-Tenant Foundation
-- Phase 2: Authentication & Onboarding
-- Phase 3: Invitation & Team Management
-- Phase 4: Org Admin Dashboard & Settings
-- Phase 5: System Admin & User Dashboards
+- Phase 1A: Additional Data Models
+- Phase 2: Authentication & Quick Setup
+- Phase 3: Direct Messaging System
+- Phase 4: Invitation & Team Management
+- Phase 5: Organization Admin Dashboard & Settings
+- Phase 6: System Admin & User Dashboards
 
 ## Next Steps
 - Deploy to production

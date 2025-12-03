@@ -122,24 +122,24 @@ graph LR
 graph TD
     SysAdmin[System Admin<br/>Internal Operations]
     OrgAdmin[Organization Admin<br/>Manages Organization]
-    TeamAdmin[Team Admin<br/>Manages Teams]
     User[User<br/>Participates in Quizzes]
+    TeamPrivs[Team Admin Privileges<br/>Additional permissions for specific teams]
     
     SysAdmin -->|Can do everything| OrgAdmin
-    OrgAdmin -->|Can do everything| TeamAdmin
-    TeamAdmin -->|Can do everything| User
+    OrgAdmin -->|Can do everything| User
+    User -.->|Can be granted| TeamPrivs
     
     SysAdmin -.->|Permissions| SysPerms[• Create organizations<br/>• Manage all orgs<br/>• Global questions<br/>• System settings<br/>• Cross-org analytics]
     
     OrgAdmin -.->|Permissions| OrgPerms[• Create teams<br/>• Invite users<br/>• Manage licenses<br/>• Configure branding<br/>• Org settings<br/>• Approve questions]
     
-    TeamAdmin -.->|Permissions| TeamPerms[• Invite to assigned teams<br/>• Manage team members<br/>• Update team picture<br/>• Review join requests]
+    TeamPrivs -.->|Additional Permissions| TeamPerms[• Invite to assigned teams<br/>• Manage team members<br/>• Update team picture<br/>• Review join requests<br/>• Approve team questions]
     
     User -.->|Permissions| UserPerms[• Answer quizzes<br/>• Send props<br/>• Submit questions<br/>• Request to join teams<br/>• View profiles]
     
     style SysAdmin fill:#f44336,color:#fff
     style OrgAdmin fill:#ff9800,color:#fff
-    style TeamAdmin fill:#2196f3,color:#fff
+    style TeamPrivs fill:#2196f3,color:#fff
     style User fill:#4caf50,color:#fff
 ```
 

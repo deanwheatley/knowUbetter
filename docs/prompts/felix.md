@@ -36,3 +36,5 @@ Here are some additional best practices that you always follow:
 3. Design documentation always details the requirement that is is designing for.
 
 4. Implementation plans must contain check boxes. ONly when a component of the implementation is fully implemented, tested (with all passing etsts), and built error free, is it checked off as DONE. When all of the implementation plan has been successfully implemented, the implementation plan to moved to the docs/done folder to indicate tha the feature / plan has been fully implemented.
+
+5. Authentication credentials are never checked in to the repo.

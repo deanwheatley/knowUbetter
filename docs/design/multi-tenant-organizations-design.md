@@ -21,7 +21,7 @@ Design for extending knowUbetter from single-tenant to multi-tenant architecture
   1. Create account (email, display name, password)
   2. Set up organization (name, first team, size estimate)
   3. Configure branding (logo, colors, SSO - optional)
-- Organization created with default settings and FREE unlimited licenses
+- Organization created with default settings and 20 evaluation licenses
 
 ### 2. Role Hierarchy
 
@@ -32,16 +32,16 @@ Design for extending knowUbetter from single-tenant to multi-tenant architecture
 System Admin (highest)
     ↓ (can do everything Org Admin can do)
 Organization Admin
-    ↓ (can do everything Team Admin can do)
-Team Admin
-    ↓ (can do everything User can do)
+    ↓ (can do everything User can do + org management)
 User (base role)
+    + Team Admin Privileges (for specific teams)
 ```
 
 **Assignment:**
 - Users select User or Organization Admin at signup
-- Team Admin role assigned by Organization Admin
+- Team Admin privileges assigned by Organization Admin to specific teams
 - System Admin role assigned manually (internal only)
+- Users maintain User role but gain additional privileges for assigned teams
 
 ### 3. Invitation System
 
@@ -76,12 +76,14 @@ User (base role)
 - When enabled, expired invitations automatically release reserved licenses
 - Expired invitations can be resent with one click
 - Admins can manually cancel/rescind at any time regardless of expiration setting
+- **Never expire**: `expiresAt: null` - invitation never expires automatically
+- Expiration checking cron job skips invitations where `expiresAt` is null
 
 **Edge Cases:**
 - If existing user already on selected teams: Skip silently (no duplicate)
 - Existing users get in-app notification about new team assignments
 - No license consumed for existing users (already counted)
-- If expiration set to "Never", invitations remain valid until manually cancelled
+- If expiration set to "Never" (`expiresAt: null`), invitations remain valid until manually cancelled
 
 ### 4. Authentication & SSO
 
@@ -129,18 +131,26 @@ User (base role)
 
 ### 6. License Management
 
-**Decision:** Start with FREE unlimited licenses for all organizations.
+**Decision:** Evaluation period model with System Admin controls.
 
 **Rationale:**
-- Removes barrier to entry
-- Allows testing and validation
-- Can add billing later without breaking existing orgs
+- Provides clear trial period for organizations to evaluate
+- System Admin maintains control over resource allocation
+- Creates natural pathway to paid plans
+- Allows flexible extension and customization per organization
+
+**Implementation:**
+- New organizations: 20 licenses + configurable evaluation period
+- System Admin dashboard for managing all organization licenses
+- Real-time notifications when licenses/periods change
+- License enforcement prevents over-invitation
+- Expired evaluation blocks new invitations but preserves existing users
 
 **Future Implementation:**
-- Paid license tiers
-- License usage tracking and alerts
-- Automatic billing integration
-- License request workflow
+- Automatic billing integration after evaluation
+- Self-service license purchasing
+- Usage analytics and recommendations
+- Enterprise license tiers
 
 ### 7. Data Isolation
 
@@ -164,7 +174,56 @@ User (base role)
 - Can see props given to users on other teams
 - Can only participate in quizzes for assigned teams
 
-### 8. Organization & Team Branding
+### 8. Direct Messaging System
+
+**Decision:** Team-scoped async messaging to enhance quiz activities.
+
+**Implementation:**
+- Messages only between users who share at least one team
+- Async message delivery with read status tracking
+- Integration points in quiz results, props system, profile updates
+- Message templates for common scenarios
+- Custom message composition for deeper conversations
+
+**Message Scoping:**
+- Users can message any teammate (shared team membership)
+- Message history preserved per conversation
+- Notifications for unread messages
+- No real-time delivery requirements (async is sufficient)
+
+**Activity Integration:**
+- Quick message buttons in quiz result screens
+- Props acknowledgment messaging
+- Profile update notifications to teammates
+- Question submission courtesy messages
+
+### 9. TurboTax-Style Quick Setup
+
+**Decision:** Replace complex configuration with simple questions and smart defaults.
+
+**Rationale:**
+- Reduces setup time from 15-20 minutes to <2 minutes
+- Increases completion rate from ~60% to target 90%+
+- Eliminates configuration paralysis and abandonment
+- Provides immediate value while allowing later customization
+
+**Question Flow:**
+1. **Organization Type**: Ad Tech, Software Engineering, Advertising
+2. **Structure**: Departments, Project Teams, One Big Team, Custom
+3. **First Action**: Invite team, Add questions, Customize, Start now
+
+**Smart Defaults by Industry:**
+- **Ad Tech**: Modern branding, Google auth, project teams, 30-day eval
+- **Software Engineering**: Professional branding, all auth, department teams, 30-day eval
+- **Advertising**: Creative branding, social auth, campaign teams, 30-day eval
+
+**Progressive Disclosure:**
+- Quick setup completes with smart defaults
+- "You can change these settings anytime" messaging
+- Advanced configuration available in settings
+- Migration path from templates to custom configuration
+
+### 10. Organization & Team Branding
 
 **Organization Branding:**
 - Logo upload (displayed in header)
@@ -195,9 +254,15 @@ interface Organization {
   status: 'active' | 'trial' | 'inactive'
   
   // Licensing
-  totalLicenses: number | 'unlimited'
+  totalLicenses: number
   usedLicenses: number
   availableLicenses: number
+  
+  // Evaluation Period
+  evaluationStartDate: Date
+  evaluationEndDate: Date
+  evaluationExtended: boolean
+  isEvaluationActive: boolean
   
   // Branding
   branding: {
@@ -246,9 +311,9 @@ interface User {
   teamIds: string[]
   primaryTeamId?: string
   
-  // Role
-  role: 'user' | 'teamAdmin' | 'orgAdmin' | 'systemAdmin'
-  teamAdminFor: string[] // Team IDs where user is team admin (can be multiple)
+  // Role (only actual roles, not team admin privileges)
+  role: 'user' | 'orgAdmin' | 'systemAdmin'
+  teamAdminFor: string[] // Team IDs where user has admin privileges (can be multiple)
   
   // Profile
   avatar: string // URL or auto-generated
@@ -318,10 +383,12 @@ interface Question {
   options: string[]
   correctAnswer: string
   
-  // Scope
-  scope: 'global' | 'organization' | 'team'
+  // Scope (Hybrid System)
+  defaultScope: 'global' | 'organization' | 'team' // Based on category defaults
+  actualScope: 'global' | 'organization' | 'team' // After admin override
   organizationId?: string // if org or team scoped
   teamId?: string // if team scoped
+  isManuallyAssigned: boolean // true if admin overrode default scoping
   
   // Existing fields
   createdBy: string
@@ -330,6 +397,63 @@ interface Question {
   timesAnswered: number
   correctRate: number
   // ... all existing question fields
+}
+```
+
+### Message
+```typescript
+interface Message {
+  id: string
+  senderId: string
+  receiverId: string
+  content: string
+  type: 'quick' | 'custom' | 'system'
+  
+  // Activity Integration
+  relatedActivity?: {
+    type: 'question' | 'quiz' | 'prop' | 'know-you'
+    id: string
+    context?: string // Additional context about the activity
+  }
+  
+  // Message Status
+  isRead: boolean
+  readAt?: Date
+  
+  // Metadata
+  createdAt: Date
+  updatedAt: Date
+}
+```
+
+### OrganizationTemplate
+```typescript
+interface OrganizationTemplate {
+  id: string
+  name: string
+  type: 'adtech' | 'software' | 'advertising'
+  
+  // Smart Defaults
+  branding: {
+    primaryColor: string
+    secondaryColor: string
+    theme: 'modern' | 'professional' | 'creative'
+  }
+  
+  authConfig: {
+    credentials: boolean
+    google: boolean
+    facebook: boolean
+  }
+  
+  defaultTeams: {
+    name: string
+    color: string
+    icon: string
+  }[]
+  
+  evaluationPeriod: number // days
+  defaultLicenses: number
 }
 ```
 

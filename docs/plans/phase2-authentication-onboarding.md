@@ -1,10 +1,10 @@
-# Phase 2: Authentication & User Onboarding - Implementation Plan
+# Phase 2: Authentication & Quick Setup - Implementation Plan
 
 ## Overview
-Implement authentication system with SSO support and complete user onboarding flows for both standard users and organization admins.
+Implement authentication system with SSO support, complete user onboarding flows, and TurboTax-style quick setup for organization admins to improve completion rates.
 
 **Requirements:** Multi-tenant organizations requirements (docs/requirements/multi-tenant-organizations.md)
-**Design:** Authentication flow (docs/design/architecture-diagrams.md), Auth mockups (docs/design/auth-login-signup-mockup.md)
+**Design:** Authentication flow (docs/design/architecture-diagrams.md), Auth mockups (docs/design/auth-login-signup-mockup.md), Quick setup (docs/design/multi-tenant-organizations-design.md)
 
 ## Tasks
 
@@ -60,10 +60,11 @@ Implement authentication system with SSO support and complete user onboarding fl
   - **Requirements:** 5. User Profile Requirements
   - **Mockup:** Standard user signup (docs/design/auth-login-signup-mockup.md)
   
-- [x] 2.5 Create organization admin signup flow (3 steps)
-  - Step 1: Account creation, Step 2: Org setup, Step 3: Branding
-  - **Requirements:** 1. Organization Structure (Organization Creation)
+- [ ] 2.5 Create organization admin signup with quick setup
+  - Step 1: Account creation, Step 2: TurboTax-style questions, Step 3: Welcome
+  - **Requirements:** 1. Organization Structure, 13. Quick Setup & Progressive Configuration
   - **Mockup:** Org admin signup steps (docs/design/auth-login-signup-mockup.md)
+  - **Design:** TurboTax-style quick setup (docs/ideas/turbotax-admin-setup.md)
 
 ### 3. Invitation System
 - [x] 3.1 Implement email-based invitation detection
@@ -86,26 +87,31 @@ Implement authentication system with SSO support and complete user onboarding fl
   - **Requirements:** 4. User Invitation & Onboarding (SSO Requirements)
   - **Mockup:** SSO signup (docs/design/auth-login-signup-mockup.md)
 
-### 4. Organization Creation During Signup
-- [x] 4.1 Implement organization creation in signup flow
-  - Create org with defaults when Org Admin signs up
-  - **Requirements:** 1. Organization Structure (Organization Creation)
-  - **Design:** Organization creation flow (docs/design/user-flow-diagrams.md)
+### 4. TurboTax-Style Quick Setup
+- [ ] 4.1 Implement organization type question
+  - Question 1: "What kind of organization are you?" (Ad Tech, Software Engineering, Advertising)
+  - **Requirements:** 13. Quick Setup & Progressive Configuration
+  - **Design:** Question flow (docs/ideas/turbotax-admin-setup.md)
   
-- [x] 4.2 Create first team during org setup
-  - Create team with name provided in Step 2
-  - **Requirements:** 1. Organization Structure (New organizations get defaults)
-  - **Mockup:** Org admin signup step 2 (docs/design/auth-login-signup-mockup.md)
+- [ ] 4.2 Implement organization structure question
+  - Question 2: "How is your organization structured?" (Departments, Project Teams, One Big Team, Custom)
+  - **Requirements:** 13. Quick Setup & Progressive Configuration
+  - **Design:** Question flow (docs/ideas/turbotax-admin-setup.md)
   
-- [x] 4.3 Apply organization branding settings
-  - Upload logo, set colors, configure SSO (optional)
-  - **Requirements:** 3. Organization Branding
-  - **Mockup:** Org admin signup step 3 (docs/design/auth-login-signup-mockup.md)
+- [ ] 4.3 Implement first action question
+  - Question 3: "What would you like to do first?" (Invite team, Add questions, Customize, Start now)
+  - **Requirements:** 13. Quick Setup & Progressive Configuration
+  - **Design:** Question flow (docs/ideas/turbotax-admin-setup.md)
   
-- [x] 4.4 Initialize organization with defaults
-  - Default categories, settings, access to global questions
-  - **Requirements:** 1. Organization Structure (New organizations get defaults)
-  - **Design:** Organization initialization (docs/design/multi-tenant-organizations-design.md)
+- [ ] 4.4 Apply smart defaults based on answers
+  - Use OrganizationTemplate to apply branding, auth config, default teams
+  - **Requirements:** 13. Quick Setup & Progressive Configuration
+  - **Design:** Smart defaults implementation (docs/ideas/turbotax-admin-setup.md)
+  
+- [ ] 4.5 Add "Advanced Setup" option
+  - "Need more control?" link to bypass quick setup
+  - **Requirements:** 13. Quick Setup & Progressive Configuration (Progressive Configuration)
+  - **Design:** Advanced configuration access (docs/ideas/turbotax-admin-setup.md)
 
 ### 5. Welcome Screens
 - [x] 5.1 Create welcome screen for users with teams
@@ -118,10 +124,11 @@ Implement authentication system with SSO support and complete user onboarding fl
   - **Requirements:** 4. User Invitation & Onboarding (Without Invitation)
   - **Mockup:** Welcome no teams (docs/design/auth-login-signup-mockup.md)
   
-- [x] 5.3 Create welcome screen for new org admins
-  - Next steps: invite members, configure questions, settings
-  - **Requirements:** 1. Organization Structure
+- [ ] 5.3 Create welcome screen for new org admins
+  - Show what was configured automatically, next steps based on "first action" choice
+  - **Requirements:** 1. Organization Structure, 13. Quick Setup & Progressive Configuration
   - **Mockup:** Welcome org admin (docs/design/auth-login-signup-mockup.md)
+  - **Design:** Welcome screen updates (docs/ideas/turbotax-admin-setup.md)
 
 ### 6. Testing & Validation
 - [ ] 6.1 Write unit tests for authentication service
@@ -151,15 +158,20 @@ Implement authentication system with SSO support and complete user onboarding fl
 - [ ] Organization-aware authentication (SSO method filtering)
 - [ ] Login page complete with SSO options
 - [ ] Standard user signup flow complete
-- [ ] Organization admin signup flow complete (3 steps)
+- [ ] Organization admin signup with TurboTax-style quick setup complete
+- [ ] Smart defaults applied based on organization type and structure
+- [ ] Advanced setup option available for power users
 - [ ] Invitation detection and acceptance working
 - [ ] Welcome screens implemented for all scenarios
+- [ ] Setup completion rate improves to 90%+ target
+- [ ] Time to first value reduced to <5 minutes
 - [ ] All unit tests passing
 - [ ] All integration tests passing
 - [ ] Build completes without errors
 
 ## Dependencies
 - Phase 1: Multi-Tenant Foundation (must be complete)
+- Phase 1A: Additional Data Models (OrganizationTemplate models required)
 
 ## Next Phase
-Phase 3: Invitation & Team Management
+Phase 3: Direct Messaging System
