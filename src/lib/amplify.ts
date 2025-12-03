@@ -1,8 +1,6 @@
-// Placeholder for future AWS Amplify configuration
-// Currently using local JSON file authentication
+import { Amplify } from 'aws-amplify';
+import outputs from '../../amplify_outputs.json';
 
-export const amplifyConfig = {
-  // Will be configured when moving to AWS Amplify
-}
+Amplify.configure(outputs);
 
-export default amplifyConfig
+export default outputs;
