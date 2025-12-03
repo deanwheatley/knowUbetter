@@ -9,27 +9,27 @@ Implement smart invitation processing, team management for Org Admins and Team A
 ## Tasks
 
 ### 1. Smart Invitation Processing
-- [ ] 1.1 Implement invitation service with email checking
+- [x] 1.1 Implement invitation service with email checking
   - Check if user exists, determine action (invite/assign/error)
   - **Requirements:** 4. User Invitation & Onboarding (Invitation Processing)
   - **Design:** Invitation processing flow (docs/design/architecture-diagrams.md)
   
-- [ ] 1.2 Implement immediate team assignment for existing users
+- [x] 1.2 Implement immediate team assignment for existing users
   - Add existing users to teams, send in-app notification
   - **Requirements:** 4. User Invitation & Onboarding (Existing User Team Assignment)
   - **Design:** Smart invitation processing (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 1.3 Implement invitation email sending for new users
+- [x] 1.3 Implement invitation email sending for new users
   - Send email with unique link, reserve license
   - **Requirements:** 4. User Invitation & Onboarding (With Invitation)
   - **Design:** Invitation processing flow (docs/design/architecture-diagrams.md)
   
-- [ ] 1.4 Implement cross-organization validation
+- [x] 1.4 Implement cross-organization validation
   - Detect users in different orgs, return error
   - **Requirements:** 4. User Invitation & Onboarding (Invitation Processing)
   - **Design:** Data isolation (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 1.5 Create invitation results summary
+- [x] 1.5 Create invitation results summary
   - Categorize results: teams assigned, invitations sent, errors
   - **Requirements:** 4. User Invitation & Onboarding (Invitation Processing)
   - **Mockup:** Invitation results summary (docs/design/org-admin-dashboard-mockup.md)
@@ -56,12 +56,12 @@ Implement smart invitation processing, team management for Org Admins and Team A
   - **Mockup:** Invitations management (docs/design/org-admin-dashboard-mockup.md)
 
 ### 3. Invitation Expiration
-- [ ] 3.1 Implement configurable expiration settings
+- [x] 3.1 Implement configurable expiration settings
   - Org-level setting: 7, 14, 30, 60, 90 days, or never
   - **Requirements:** 4. User Invitation & Onboarding (Invitation Expiration)
   - **Design:** Invitation expiration (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 3.2 Implement expiration checking and license release
+- [x] 3.2 Implement expiration checking and license release
   - Cron job to check expired invitations, release licenses
   - **Requirements:** 4. User Invitation & Onboarding (Invitation Expiration)
   - **Design:** Invitation expiration (docs/design/multi-tenant-organizations-design.md)
