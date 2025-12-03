@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Use standard output for Amplify hosting with SSR support
   trailingSlash: true,
   images: {
     unoptimized: true
   },
-  // Disable problematic features for static export
+  // Enable output file tracing for Amplify
   experimental: {
-    outputFileTracingRoot: undefined,
+    outputFileTracingRoot: process.cwd(),
   }
 }
 
