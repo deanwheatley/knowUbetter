@@ -42,22 +42,22 @@ Establish the core multi-tenant infrastructure including database schema, data m
   - **Design:** Question data model (docs/design/multi-tenant-organizations-design.md)
 
 ### 2. Organization Service
-- [ ] 2.1 Implement Organization CRUD operations
+- [x] 2.1 Implement Organization CRUD operations
   - Create, read, update, delete organizations
   - **Requirements:** 1. Organization Structure
   - **Design:** Organization Service (docs/design/architecture-diagrams.md)
   
-- [ ] 2.2 Implement license management functions
+- [x] 2.2 Implement license management functions
   - Check available licenses, reserve license, release license
   - **Requirements:** 2. License Management
   - **Design:** License management approach (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 2.3 Implement organization branding functions
+- [x] 2.3 Implement organization branding functions
   - Upload logo, set colors, configure SSO
   - **Requirements:** 3. Organization Branding
   - **Design:** Organization branding implementation (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 2.4 Implement organization settings management
+- [x] 2.4 Implement organization settings management
   - Get/update settings, apply defaults
   - **Requirements:** 9. Quiz Configuration Scope
   - **Design:** Organization settings (docs/design/org-admin-dashboard-mockup.md)
