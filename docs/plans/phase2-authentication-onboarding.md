@@ -76,7 +76,7 @@ Implement authentication system with SSO support and complete user onboarding fl
   - **Requirements:** 4. User Invitation & Onboarding (With Invitation)
   - **Design:** Invitation processing (docs/design/architecture-diagrams.md)
   
-- [ ] 3.4 Implement SSO signup with display name requirement
+- [x] 3.4 Implement SSO signup with display name requirement
   - Pre-fill from SSO provider, allow editing
   - **Requirements:** 4. User Invitation & Onboarding (SSO Requirements)
   - **Mockup:** SSO signup (docs/design/auth-login-signup-mockup.md)
