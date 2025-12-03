@@ -268,20 +268,18 @@ export const authService = {
   },
 
   /**
-   * Sign in with Google OAuth
+   * Sign in with Google OAuth (using AWS Amplify)
    */
   async signInWithGoogle(): Promise<void> {
-    // This would trigger Google OAuth flow
-    // Implementation depends on Amplify OAuth configuration
-    throw new Error('Google OAuth not yet configured');
+    const { signInWithRedirect } = await import('aws-amplify/auth');
+    await signInWithRedirect({ provider: 'Google' });
   },
 
   /**
-   * Sign in with Facebook OAuth
+   * Sign in with Facebook OAuth (using AWS Amplify)
    */
   async signInWithFacebook(): Promise<void> {
-    // This would trigger Facebook OAuth flow
-    // Implementation depends on Amplify OAuth configuration
-    throw new Error('Facebook OAuth not yet configured');
+    const { signInWithRedirect } = await import('aws-amplify/auth');
+    await signInWithRedirect({ provider: 'Facebook' });
   },
 };

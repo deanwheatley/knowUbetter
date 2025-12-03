@@ -28,7 +28,8 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await authService.signInWithGoogle();
+      const { signInWithRedirect } = await import('aws-amplify/auth');
+      await signInWithRedirect({ provider: 'Google' });
     } catch (err: any) {
       setError(err.message || 'Google sign in not available');
     }
@@ -36,7 +37,8 @@ export default function LoginPage() {
 
   const handleFacebookSignIn = async () => {
     try {
-      await authService.signInWithFacebook();
+      const { signInWithRedirect } = await import('aws-amplify/auth');
+      await signInWithRedirect({ provider: 'Facebook' });
     } catch (err: any) {
       setError(err.message || 'Facebook sign in not available');
     }
