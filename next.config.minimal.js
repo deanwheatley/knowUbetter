@@ -5,7 +5,7 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  // Disable problematic features for static export
+  // Disable Amplify integration for now
   experimental: {
     outputFileTracingRoot: undefined,
   }

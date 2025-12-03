@@ -63,43 +63,43 @@ Establish the core multi-tenant infrastructure including database schema, data m
   - **Design:** Organization settings (docs/design/org-admin-dashboard-mockup.md)
 
 ### 3. User Service Updates
-- [ ] 3.1 Update user creation for multi-tenancy
+- [x] 3.1 Update user creation for multi-tenancy
   - Add organizationId, validate organization exists
   - **Requirements:** 5. User Profile Requirements
   - **Design:** User data model (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 3.2 Implement role management functions
+- [x] 3.2 Implement role management functions
   - Assign role, check permissions, validate role hierarchy
   - **Requirements:** 5. User Profile Requirements (Role Hierarchy)
   - **Design:** Role hierarchy (docs/design/architecture-diagrams.md)
   
-- [ ] 3.3 Implement team assignment functions
+- [x] 3.3 Implement team assignment functions
   - Add user to team, remove from team, validate team belongs to org
   - **Requirements:** 6. Team Management
   - **Design:** Team assignment (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 3.4 Implement data isolation middleware
+- [x] 3.4 Implement data isolation middleware
   - Filter all queries by organizationId, validate user access
   - **Requirements:** 9. Data Isolation
   - **Design:** Data isolation strategy (docs/design/multi-tenant-organizations-design.md)
 
 ### 4. Team Service Updates
-- [ ] 4.1 Update team creation for organizations
+- [x] 4.1 Update team creation for organizations
   - Add organizationId, validate org exists
   - **Requirements:** 6. Team Management
   - **Design:** Team data model (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 4.2 Implement team admin management
+- [x] 4.2 Implement team admin management
   - Add/remove team admins (multiple per team)
   - **Requirements:** 6. Team Management (Multiple Team Admins)
   - **Design:** Team admin management (docs/design/org-admin-dashboard-mockup.md)
   
-- [ ] 4.3 Implement team picture upload
+- [x] 4.3 Implement team picture upload
   - Upload picture to S3, generate auto-icon fallback
   - **Requirements:** 6. Team Management (Team Branding)
   - **Design:** Team branding (docs/design/multi-tenant-organizations-design.md)
   
-- [ ] 4.4 Implement team filtering by organization
+- [x] 4.4 Implement team filtering by organization
   - Get teams for org, validate access
   - **Requirements:** 9. Data Isolation
   - **Design:** Multi-tenant data isolation (docs/design/architecture-diagrams.md)
