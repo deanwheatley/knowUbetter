@@ -3,6 +3,35 @@
 ## Overview
 Extension of knowUbetter to support multiple organizations with hierarchical administration, license management, organization branding, and data isolation.
 
+**Platform Support:** knowUbetter will be available as both a web application and an Android mobile application, with feature parity across both platforms.
+
+## Platform Requirements
+
+### Web Application
+- Responsive design supporting desktop and mobile browsers
+- Progressive Web App (PWA) capabilities for offline access
+- Modern browser support (Chrome, Firefox, Safari, Edge)
+- Optimized for desktop workflows and administration tasks
+
+### Android Application
+- Native Android app built with Kotlin and Jetpack Compose
+- Separate repository: `knowUbetter-android` (follows PlayShares architecture pattern)
+- Support for Android 8.0 (API level 26) and above
+- Material Design 3 with native mobile UI patterns and navigation
+- Push notifications via Firebase Cloud Messaging for real-time updates
+- Offline-first architecture with Room database and data synchronization
+- Camera integration for avatar and logo uploads
+- Deep linking support for invitation emails
+- Reference implementation: `playsharesref/playshares-android`
+- Detailed plan: `docs/plans/android-app-plan.md`
+
+### Cross-Platform Consistency
+- Shared backend API and business logic
+- Consistent user experience across web and mobile
+- Real-time data synchronization between platforms
+- Unified authentication and session management
+- Feature parity between web and Android (with platform-appropriate UX)
+
 ## User Roles
 
 ### System Admin

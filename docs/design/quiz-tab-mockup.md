@@ -111,7 +111,7 @@
 ### Question Card
 - Category badge with icon
 - Question text
-- 3 multiple choice options (A, B, C)
+- 4 multiple choice options (A, B, C, D)
 - Selected state highlight
 - Correct/incorrect feedback after submission
 

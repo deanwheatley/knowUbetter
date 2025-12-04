@@ -11,7 +11,7 @@
 
 ## Question Management System
 - [ ] Question submission form with category dropdown
-- [ ] Multiple choice options input (exactly 3 options)
+- [ ] Multiple choice options input (exactly 4 options: A, B, C, D)
 - [ ] Correct answer selection interface
 - [ ] Local questions storage (JSON file)
 - [ ] Admin approval queue interface
@@ -23,7 +23,7 @@
 ## Quiz Interface
 - [ ] Random question selection from approved questions
 - [ ] Exclude previously correctly answered questions per user
-- [ ] Multiple choice interface (exactly 3 options)
+- [ ] Multiple choice interface (exactly 4 options: A, B, C, D)
 - [ ] Answer submission and validation
 - [ ] Kudos calculation (configurable value per question)
 - [ ] Weekly question limit tracking per user
@@ -52,7 +52,7 @@
 ## File Structure Setup
 - [ ] Create data/ directory for JSON files
 - [ ] users.json structure (with answered questions tracking)
-- [ ] questions.json structure (multiple choice format)
+- [ ] questions.json structure (multiple choice format with 4 options: A, B, C, D)
 - [ ] config.json structure (weekly limits, kudos values)
 - [ ] user-progress.json structure (weekly question counts)
 - [ ] Test file operations

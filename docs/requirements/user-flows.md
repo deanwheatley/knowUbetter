@@ -39,7 +39,7 @@
    - Category badge
    - Difficulty indicator (🟢🟡🔴)
    - Question text
-   - 3 multiple choice options
+   - 4 multiple choice options (A, B, C, D)
    - Countdown timer (based on word count)
    - Pass button (shows passes remaining)
    - Questions remaining this week (e.g., "12/20")

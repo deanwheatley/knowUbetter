@@ -7,8 +7,9 @@
 - Algorithm ensures variety across categories
 
 ## Question Format Standardization
-- All questions are multiple choice with exactly 3 options
+- All questions are multiple choice with exactly 4 options (A, B, C, D)
 - Consistent UI/UX experience
+- Standard quiz format familiar to users
 - Easier to validate and score
 - Simpler question creation process
 

@@ -1,28 +1,65 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+/* ---------- App color tokens (dark-first) ---------- */
 :root {
-  --surface: #0b0f14;
-  --panel: #11161d;
-  --border: #1f2937;
-  --ink: #e6edf3;
-  --muted: #93a1b3;
-  --brand: #6c8cff;
-  --brand-2: #9aaeff;
+  --bg:        #0b1220; /* page background */
+  --surface:   #0b0f14; /* darker surface */
+  --panel:     #11161d; /* cards / panels */
+  --panel-2:   #0c1626; /* inputs / chips */
+  --border:    #203247; /* soft border */
+  --ink:       #e6edf3; /* main text */
+  --muted:     #93a4b8; /* secondary text */
+  --brand:     #6c8cff; /* primary brand color */
+  --brand-2:   #9aaeff; /* lighter brand */
+  --accent:    #22d3a3; /* emerald-ish */
+  --accent-2:  color-mix(in oklab, var(--accent) 14%, transparent);
+  --ring:      color-mix(in oklab, var(--accent) 40%, transparent);
+  --inset:     0 1px 0 rgba(255,255,255,0.04);
 }
 
+/* ---------- Global surfaces ---------- */
+html, body { height: 100%; }
+
 body {
-  background: var(--surface);
+  background:
+    radial-gradient(1000px 600px at 50% -200px, color-mix(in oklab, var(--accent) 14%, transparent), transparent 60%),
+    var(--bg);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: rgba(108, 140, 255, 0.3);
-  color: #e6edf3;
+/* Android/WebView readability fixes */
+html {
+  font-size: 16px; /* ensure 1rem baseline */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
+
+/* Selection */
+::selection { background: var(--accent-2); color: #c8fff1; }
+
+/* Links */
+a { color: var(--ink); }
+a:hover { color: #cde6ff; }
+
+/* Inputs */
+input, select, textarea {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-radius: .75rem;
+}
+input::placeholder, textarea::placeholder { color: var(--muted); }
+
+/* Focus ring (accessible, subtle) */
+:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* Dividers */
+hr { border-top: 1px solid var(--border); }
 
 /* Video game aesthetic animations */
 @keyframes pulse-glow {

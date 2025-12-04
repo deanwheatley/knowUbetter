@@ -38,7 +38,7 @@
 ║  └──────────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                                ║
 ║  ┌──────────────────────────────────────────────────────────────────────────┐ ║
-║  │  ANSWER OPTIONS (Exactly 3 required)                                    │ ║
+║  │  ANSWER OPTIONS (Exactly 4 required)                                    │ ║
 ║  │                                                                          │ ║
 ║  │  Option A (Correct Answer)                                              │ ║
 ║  │  ┌────────────────────────────────────────────────────────────────────┐ │ ║
@@ -141,7 +141,7 @@
 - Character limit validation
 
 ### Answer Options
-- Exactly 3 input fields (A, B, C)
+- Exactly 4 input fields (A, B, C, D)
 - Radio buttons to select correct answer
 - All fields required
 - Validation: no duplicate answers

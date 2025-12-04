@@ -47,12 +47,28 @@ describe('authService', () => {
 
   describe('signInWithEmail', () => {
     it('should sign in user with email and password', async () => {
-      const { signIn } = await import('aws-amplify/auth');
+      const { signIn, getCurrentUser, fetchAuthSession } = await import('aws-amplify/auth');
       const { userService } = await import('../userService');
 
       vi.mocked(signIn).mockResolvedValue({
         isSignedIn: true,
         nextStep: { signInStep: 'DONE' },
+      } as any);
+
+      // Mock getCurrentUser for getSession call
+      vi.mocked(getCurrentUser).mockResolvedValue({
+        username: 'test@example.com',
+        userId: 'cognito-user-1',
+        signInDetails: {
+          loginId: 'test@example.com',
+        },
+      } as any);
+
+      // Mock fetchAuthSession for getSession call
+      vi.mocked(fetchAuthSession).mockResolvedValue({
+        tokens: {
+          accessToken: { toString: () => 'token' },
+        },
       } as any);
 
       vi.mocked(userService.getByEmail).mockResolvedValue({

@@ -7,7 +7,7 @@ A quiz-based social game where users answer questions, earn kudos, and give prop
 
 ### 1. Quiz System
 - Users answer questions across categories (Product, People, Lore, Industry)
-- All questions are multiple choice with exactly 3 options
+- All questions are multiple choice with exactly 4 options (A, B, C, D)
 - Questions are randomly selected from approved pool
 - Users cannot receive same question twice if answered correctly
 - Failed questions have 24-hour cooldown before re-appearing
@@ -156,7 +156,7 @@ A quiz-based social game where users answer questions, earn kudos, and give prop
 2. ✅ Props per week: 5 props, 2 mad-props, 1 prop-hell-yeah (roll over indefinitely)
 3. ✅ Categories: Product, People, Lore, Industry (admin can add/remove)
 4. ✅ Authentication: Required for all users
-5. ✅ Question format: Multiple choice with exactly 3 options
+5. ✅ Question format: Multiple choice with exactly 4 options (A, B, C, D)
 6. ✅ Question selection: Random, no repeats for correctly answered questions
 7. ✅ Weekly limits: 20 questions, 5 passes (admin configurable)
 8. ✅ Kudos value: 10 kudos per question (admin configurable)

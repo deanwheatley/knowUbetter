@@ -110,7 +110,10 @@ Implement authentication system with SSO support, complete user onboarding flows
   
 - [ ] 4.5 Add "Advanced Setup" option
   - "Need more control?" link to bypass quick setup
+  - Should redirect to `/auth/signup/org-admin/advanced` (full organization configuration form)
+  - Advanced page should allow manual configuration of all organization settings
   - **Requirements:** 13. Quick Setup & Progressive Configuration (Progressive Configuration)
+  - **Note:** Currently shows 404 - needs implementation
   - **Design:** Advanced configuration access (docs/ideas/turbotax-admin-setup.md)
 
 ### 5. Welcome Screens

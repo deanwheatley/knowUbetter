@@ -177,3 +177,40 @@ export interface LeaderboardEntry {
   rank: number
   badges: Badge[]
 }
+
+// Organization Templates for Quick Setup
+export type OrganizationType = 'company' | 'startup' | 'school' | 'nonprofit' | 'team'
+export type TeamStructure = 'departments' | 'projects' | 'classes' | 'single' | 'custom'
+export type FirstAction = 'invite' | 'questions' | 'customize' | 'start'
+
+export interface OrganizationTemplate {
+  type: OrganizationType
+  branding: {
+    primaryColor: string
+    secondaryColor: string
+    theme: string
+  }
+  authConfig: {
+    google: boolean
+    facebook: boolean
+    credentials: boolean
+  }
+  evaluation: {
+    period: number // days
+    licenses: number
+  }
+  defaultTeams?: Array<{
+    name: string
+    color: string
+    icon: string
+  }>
+}
+
+export interface QuickSetupAnswers {
+  organizationType: OrganizationType
+  teamStructure: TeamStructure
+  firstAction: FirstAction
+  organizationName: string
+  userEmail: string
+  userDisplayName: string
+}

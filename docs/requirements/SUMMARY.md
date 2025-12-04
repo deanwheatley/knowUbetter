@@ -6,7 +6,7 @@ A quiz-based social game where users answer questions, earn kudos, and give prop
 ## Core Mechanics
 
 ### Quiz System
-- Multiple choice questions (3 options)
+- Multiple choice questions (4 options: A, B, C, D)
 - Timed answers (2 seconds per word default)
 - Weekly limit: 20 questions
 - Pass system: 5 passes/week (doesn't count toward limit)

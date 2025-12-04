@@ -1,7 +1,9 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Organization } from '@/types';
 
-const client = generateClient<any>();
+// Type assertion for Amplify client with Organization model
+// The Organization model exists in the deployed schema but types haven't been regenerated yet
+const client = generateClient<any>() as any;
 
 /**
  * Organization Service

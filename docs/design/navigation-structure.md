@@ -16,7 +16,7 @@ Primary navigation using game-style tabs at the top:
 - **Key Elements**:
   - Question counter (X/20 this week)
   - Category filter options
-  - Quiz interface with 3 multiple choice options
+  - Quiz interface with 4 multiple choice options (A, B, C, D)
   - Celebration animations for correct answers
 
 ### 3. 🔧 Question Builder
@@ -24,7 +24,7 @@ Primary navigation using game-style tabs at the top:
 - **Key Elements**:
   - Category selection
   - Question text input
-  - 3 multiple choice options
+  - 4 multiple choice options (A, B, C, D)
   - Correct answer selection
   - Submission status tracking
 
